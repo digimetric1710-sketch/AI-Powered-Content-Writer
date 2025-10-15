@@ -65,40 +65,42 @@
         }
     </style>
 </head>
-<body class="p-4 md:p-8 min-h-screen flex flex-col items-center justify-center">
+<body class="p-4 sm:p-6 md:p-10 min-h-screen flex flex-col items-center">
 
-    <!-- Login Screen (Visible by default) -->
-    <div id="loginScreen" class="w-full max-w-sm login-card rounded-2xl p-8 shadow-2xl">
-        <div class="text-center mb-6">
-            <h1 class="text-white text-xl font-bold mb-1">Digimetric</h1>
-            <h2 class="text-gray-300 text-2xl font-semibold mb-6">AI-Powered Content Writer</h2>
-            <p class="text-emerald-400 text-lg font-medium">Log in with Gemini API Key & Password</p>
-            <p class="text-gray-400 text-sm mt-3 mb-4">Please enter your **API Key** and **Password** to use the application.</p>
-        </div>
-
-        <form id="loginForm" class="space-y-6">
-            <!-- API Key Input -->
-            <div>
-                <label for="apiKeyInput" class="text-gray-300 block text-sm font-medium mb-2">Gemini API Key</label>
-                <input type="password" id="apiKeyInput" placeholder="Enter API Key" class="login-input w-full p-4 rounded-xl text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
+    <!-- Login Screen Container -->
+    <div id="loginScreen" class="w-full h-full absolute inset-0 flex flex-col items-center justify-center hidden">
+        <div class="w-full max-w-sm login-card rounded-2xl p-8 shadow-2xl">
+            <div class="text-center mb-6">
+                <h1 class="text-white text-xl font-bold mb-1">Digimetric</h1>
+                <h2 class="text-gray-300 text-2xl font-semibold mb-6">AI-Powered Content Writer</h2>
+                <p class="text-emerald-400 text-lg font-medium">Log in with Gemini API Key & Password</p>
+                <p class="text-gray-400 text-sm mt-3 mb-4">Please enter your **API Key** and **Password** to use the application.</p>
             </div>
 
-            <!-- Password Input -->
-            <div class="relative">
-                <label for="passwordInput" class="text-gray-300 block text-sm font-medium mb-2">Password</label>
-                <input type="password" id="passwordInput" placeholder="Enter Password" class="login-input w-full p-4 rounded-xl text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2 pr-12">
-                <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 top-6 flex items-center pr-3 text-gray-400 hover:text-white transition">
-                    <!-- Eye icon (SVG) -->
-                    <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path id="eyePath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path id="eyeMainPath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            <form id="loginForm" class="space-y-6">
+                <!-- API Key Input -->
+                <div>
+                    <label for="apiKeyInput" class="text-gray-300 block text-sm font-medium mb-2">Gemini API Key</label>
+                    <input type="password" id="apiKeyInput" placeholder="Enter API Key" class="login-input w-full p-4 rounded-xl text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
+                </div>
+
+                <!-- Password Input -->
+                <div class="relative">
+                    <label for="passwordInput" class="text-gray-300 block text-sm font-medium mb-2">Password</label>
+                    <input type="password" id="passwordInput" placeholder="Enter Password" class="login-input w-full p-4 rounded-xl text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2 pr-12">
+                    <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 top-6 flex items-center pr-3 text-gray-400 hover:text-white transition">
+                        <!-- Eye icon (SVG) -->
+                        <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path id="eyePath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path id="eyeMainPath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" id="loginBtn" class="btn-primary w-full p-4 rounded-xl text-lg mt-8 transition-all duration-200">
+                    Log in
                 </button>
-            </div>
-
-            <!-- Login Button -->
-            <button type="submit" id="loginBtn" class="btn-primary w-full p-4 rounded-xl text-lg mt-8 transition-all duration-200">
-                Log in
-            </button>
-            <div id="loginError" class="text-red-400 text-center text-sm hidden"></div>
-        </form>
+                <div id="loginError" class="text-red-400 text-center text-sm hidden"></div>
+            </form>
+        </div>
     </div>
 
     <!-- Main Application Content (Hidden by default) -->
@@ -139,7 +141,7 @@
             <!-- Selection Group: Content Type (Default: Awareness) -->
             <div class="mb-8">
                 <label class="text-gray-300 block text-sm font-medium mb-3">Choose your type of content</label>
-                <div id="contentTypeGroup" class="grid grid-cols-4 gap-2">
+                <div id="contentTypeGroup" class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <button data-value="Sales" class="btn-option p-3 rounded-lg text-xs md:text-sm">Sales</button>
                     <button data-value="Awareness" class="btn-option p-3 rounded-lg text-xs md:text-sm active">Awareness</button>
                     <button data-value="Engagement" class="btn-option p-3 rounded-lg text-xs md:text-sm">Engagement</button>
@@ -154,7 +156,7 @@
             <!-- Selection Group: Tone of Voice (Default: Friendly) -->
             <div class="mb-8">
                 <label class="text-gray-300 block text-sm font-medium mb-3">Choose your tone of voice</label>
-                <div id="toneOfVoiceGroup" class="grid grid-cols-4 gap-2">
+                <div id="toneOfVoiceGroup" class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <button data-value="Sales" class="btn-option p-3 rounded-lg text-xs md:text-sm">Sales</button>
                     <button data-value="Friendly" class="btn-option p-3 rounded-lg text-xs md:text-sm active">Friendly</button>
                     <button data-value="Professional" class="btn-option p-3 rounded-lg text-xs md:text-sm">Professional</button>
@@ -702,6 +704,9 @@
                 passwordInput.classList.add('error-border'); // Add error border
                 return;
             }
+            
+            // **PERSISTENCE CHANGE: Set login flag in localStorage**
+            localStorage.setItem('isLoggedIn', 'true');
 
             // If password is correct, unlock the app
             document.getElementById('loginScreen').classList.add('hidden');
@@ -719,6 +724,9 @@
         
         // --- Log out Logic (NEW) ---
         function handleLogout() {
+            // **PERSISTENCE CHANGE: Remove login flag from localStorage**
+            localStorage.removeItem('isLoggedIn');
+            
             // Hide main app and show login screen
             document.getElementById('mainAppContent').classList.add('hidden');
             document.getElementById('loginScreen').classList.remove('hidden');
@@ -746,23 +754,21 @@
             // If it's currently hidden (password type), show it (change to text type)
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
-                // Change icon to 'eye open' (since the current SVG path is already the open eye, we just need to change the color/class for feedback)
+                // Highlight when visible
                 toggleButton.classList.add('text-emerald-400');
                 
-                // Change SVG path to the 'open eye' path (which is the default)
-                // We use the full SVG path to simulate the switch more clearly:
+                // Set to 'eye open' path (The default state paths)
                 eyeIcon.innerHTML = `<path id="eyePath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path id="eyeMainPath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
                 
             } else {
                 // If it's currently visible (text type), hide it (change to password type)
                 passwordField.type = 'password';
-                // Change icon to 'eye slash'
-                toggleButton.classList.remove('text-gray-400');
-                toggleButton.classList.remove('hover:text-white');
+                // Remove highlight when hidden
                 toggleButton.classList.remove('text-emerald-400');
+                toggleButton.classList.add('text-gray-400');
+                toggleButton.classList.add('hover:text-white');
 
-                // Using a different SVG path to represent the 'eye slash' (hidden) state
-                // This path is commonly used for the eye-slash icon:
+                // Set to 'eye slash' path
                 eyeIcon.innerHTML = `<path id="eyePath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 5.5l.947 1.258a10.02 10.02 0 00-6.071 6.242M13.5 18.5l.947-1.258a10.02 10.02 0 006.071-6.242M15 12a3 3 0 11-6 0 3 3 0 016 0zM12 5C5.373 5 0 12 0 12s5.373 7 12 7 12-7 12-7S18.627 5 12 5zM4 4l16 16"></path>`;
             }
         }
@@ -806,6 +812,23 @@
                  copyContentToClipboard('taglineOutput', 'Taglines copied to clipboard!');
             });
         }
+        
+        // --- Handle Initial App State Check ---
+        function checkInitialLoginState() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            
+            if (isLoggedIn) {
+                // Skip login screen and go straight to the app
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainAppContent').classList.remove('hidden');
+                console.log("Logged in state found. Bypassing login screen.");
+            } else {
+                 // Show login screen
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('mainAppContent').classList.add('hidden');
+                console.log("No logged in state found. Showing login screen.");
+            }
+        }
 
 
         // --- Initialization on Load ---
@@ -813,7 +836,7 @@
             // Setup Log In listeners
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
             
-            // FIX: Attach listener to togglePassword for visibility change
+            // Attach listener to togglePassword for visibility change
             document.getElementById('togglePassword').addEventListener('click', togglePasswordVisibility);
             
             // Setup Log out listener (NEW)
@@ -832,11 +855,10 @@
             // Attach the main event listener
             document.getElementById('generateContentBtn').addEventListener('click', () => generateContent('content'));
             
-            // Initial check to hide the main app content and show login screen
-            document.getElementById('mainAppContent').classList.add('hidden');
-            document.getElementById('loginScreen').classList.remove('hidden');
+            // **CRITICAL:** Check login status immediately on load
+            checkInitialLoginState();
 
-            console.log("AI Content Writer is ready. Awaiting login.");
+            console.log("AI Content Writer is ready.");
         }
     </script>
 </body>
