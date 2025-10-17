@@ -507,14 +507,21 @@
             let actionRequirements = "";
             const density = contentDensityMap[currentOutputLevel] || contentDensityMap['Medium']; // Fallback to Medium
 
+            // 1. Emoji Instruction
             if (isEmojiEnabled && (mode === 'content' || mode === 'regenerate')) {
                 actionRequirements += `The output MUST include relevant emojis (emoticon) placed naturally within the text. Use between ${density.emojiMin} and ${density.emojiMax} emojis. `;
             }
-            if (isHashtagEnabled && (mode === 'content' || mode === 'regenerate')) {
-                actionRequirements += `The output MUST end with a relevant and trending hashtag block. Use between ${density.hashtagMin} and ${density.hashtagMax} hashtags. `;
-            }
+            
+            // 2. CTA Instruction
             if (isCTAEnabled && (mode === 'content' || mode === 'regenerate')) {
+                // Ensure CTA is added before hashtags
                 actionRequirements += "The output MUST conclude with a strong and clear Call To Action (CTA). ";
+            }
+            
+            // 3. Hashtag Instruction (Must follow CTA if CTA is enabled)
+            if (isHashtagEnabled && (mode === 'content' || mode === 'regenerate')) {
+                // CRITICAL CHANGE: The prompt explicitly orders hashtags to follow the CTA.
+                actionRequirements += "The output MUST end with a relevant and trending hashtag block, placed immediately AFTER the CTA (if present) or at the very end of the post. Use between ${density.hashtagMin} and ${density.hashtagMax} hashtags. ";
             }
 
             // System Instruction is now dynamic based on selectedLanguage
