@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI-Powered Content Writer</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles for the dark theme */
         body {
@@ -67,35 +66,22 @@
 </head>
 <body class="p-4 sm:p-6 md:p-10 min-h-screen flex flex-col items-center">
 
-    <!-- Login Screen Container -->
-    <div id="loginScreen" class="w-full h-full absolute inset-0 flex flex-col items-center justify-center hidden">
+    <!-- Login Screen Container --><div id="loginScreen" class="w-full h-full absolute inset-0 flex flex-col items-center justify-center hidden">
         <div class="w-full max-w-sm login-card rounded-2xl p-8 shadow-2xl">
             <div class="text-center mb-6">
                 <h1 class="text-white text-xl font-bold mb-1">Digimetric</h1>
                 <h2 class="text-gray-300 text-2xl font-semibold mb-6">AI-Powered Content Writer</h2>
-                <p class="text-emerald-400 text-lg font-medium">Log in with Gemini API Key & Password</p>
-                <p class="text-gray-400 text-sm mt-3 mb-4">Please enter your **API Key** and **Password** to use the application.</p>
+                <p class="text-emerald-400 text-lg font-medium">Log in with Gemini API Key</p>
+                <p class="text-gray-400 text-sm mt-3 mb-4">Please enter your **API Key** to use the application.</p>
             </div>
 
             <form id="loginForm" class="space-y-6">
-                <!-- API Key Input -->
-                <div>
+                <!-- API Key Input --><div>
                     <label for="apiKeyInput" class="text-gray-300 block text-sm font-medium mb-2">Gemini API Key</label>
                     <input type="password" id="apiKeyInput" placeholder="Enter API Key" class="login-input w-full p-4 rounded-xl text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
                 </div>
-
-                <!-- Password Input -->
-                <div class="relative">
-                    <label for="passwordInput" class="text-gray-300 block text-sm font-medium mb-2">Password</label>
-                    <input type="password" id="passwordInput" placeholder="Enter Password" class="login-input w-full p-4 rounded-xl text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2 pr-12">
-                    <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 top-6 flex items-center pr-3 text-gray-400 hover:text-white transition">
-                        <!-- Eye icon (SVG) -->
-                        <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path id="eyePath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path id="eyeMainPath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                    </button>
-                </div>
-
-                <!-- Login Button -->
-                <button type="submit" id="loginBtn" class="btn-primary w-full p-4 rounded-xl text-lg mt-8 transition-all duration-200">
+                
+                <!-- Login Button --><button type="submit" id="loginBtn" class="btn-primary w-full p-4 rounded-xl text-lg mt-8 transition-all duration-200">
                     Log in
                 </button>
                 <div id="loginError" class="text-red-400 text-center text-sm hidden"></div>
@@ -103,43 +89,35 @@
         </div>
     </div>
 
-    <!-- Main Application Content (Hidden by default) -->
-    <div id="mainAppContent" class="hidden w-full max-w-2xl flex flex-col items-center relative">
-        <!-- Log out Button (NEW) -->
-        <button id="logoutBtn" class="absolute top-4 right-4 z-10 btn-secondary p-2 rounded-lg text-sm flex items-center transition-all duration-200 hover:bg-gray-700">
+    <!-- Main Application Content (Hidden by default) --><div id="mainAppContent" class="hidden w-full max-w-2xl flex flex-col items-center relative">
+        <!-- Log out Button (NEW) --><button id="logoutBtn" class="absolute top-4 right-4 z-10 btn-secondary p-2 rounded-lg text-sm flex items-center transition-all duration-200 hover:bg-gray-700">
              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
              Log out
         </button>
 
-        <!-- Header Section -->
-        <div class="text-center mb-10 w-full max-w-2xl">
+        <!-- Header Section --><div class="text-center mb-10 w-full max-w-2xl">
             <h1 class="text-white text-3xl font-extrabold mb-1">Digimetric</h1>
             <h2 class="text-emerald-400 text-xl font-semibold tracking-wide">AI-Powered Content Writer</h2>
         </div>
 
-        <!-- Main Content Generator Form -->
-        <div id="content-generator-form" class="w-full max-w-2xl bg-black rounded-xl p-0">
+        <!-- Main Content Generator Form --><div id="content-generator-form" class="w-full max-w-2xl bg-black rounded-xl p-0">
             
-            <!-- Input Group: Business Name -->
-            <div class="mb-6">
+            <!-- Input Group: Business Name --><div class="mb-6">
                 <label for="businessName" class="text-gray-300 block text-sm font-medium mb-2">Name of Your Business</label>
                 <input type="text" id="businessName" placeholder="e.g., Ocean Blue Coffee Shop" class="input-field w-full p-3 rounded-lg text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
             </div>
 
-            <!-- Input Group: Topic -->
-            <div class="mb-6">
+            <!-- Input Group: Topic --><div class="mb-6">
                 <label for="topic" class="text-gray-300 block text-sm font-medium mb-2">What topic do you need content ideas for?</label>
                 <input type="text" id="topic" placeholder="e.g., Introducing the new 'Summer Blast' coffee blend" class="input-field w-full p-3 rounded-lg text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
             </div>
 
-            <!-- Input Group: Target Audience -->
-            <div class="mb-6">
+            <!-- Input Group: Target Audience --><div class="mb-6">
                 <label for="audience" class="text-gray-300 block text-sm font-medium mb-2">What is your target audience?</label>
                 <input type="text" id="audience" placeholder="e.g., Office workers and students aged 20-35" class="input-field w-full p-3 rounded-lg text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
             </div>
 
-            <!-- Selection Group: Content Type (Default: Awareness) -->
-            <div class="mb-8">
+            <!-- Selection Group: Content Type (Default: Awareness) --><div class="mb-8">
                 <label class="text-gray-300 block text-sm font-medium mb-3">Choose your type of content</label>
                 <div id="contentTypeGroup" class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <button data-value="Sales" class="btn-option p-3 rounded-lg text-xs md:text-sm">Sales</button>
@@ -153,8 +131,7 @@
                 </div>
             </div>
 
-            <!-- Selection Group: Tone of Voice (Default: Friendly) -->
-            <div class="mb-8">
+            <!-- Selection Group: Tone of Voice (Default: Friendly) --><div class="mb-8">
                 <label class="text-gray-300 block text-sm font-medium mb-3">Choose your tone of voice</label>
                 <div id="toneOfVoiceGroup" class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <button data-value="Sales" class="btn-option p-3 rounded-lg text-xs md:text-sm">Sales</button>
@@ -168,8 +145,7 @@
                 </div>
             </div>
             
-            <!-- Selection Group: Language (Default: English) -->
-            <div class="mb-8">
+            <!-- Selection Group: Language (Default: English) --><div class="mb-8">
                 <label class="text-gray-300 block text-sm font-medium mb-3">Choose your language</label>
                 <div id="languageGroup" class="grid grid-cols-4 gap-2">
                     <button data-value="Burmese" class="btn-option p-3 rounded-lg text-xs md:text-sm">Burmese</button>
@@ -179,8 +155,7 @@
                 </div>
             </div>
 
-            <!-- Selection Group: Output Level (Default: Medium) -->
-            <div class="mb-8">
+            <!-- Selection Group: Output Level (Default: Medium) --><div class="mb-8">
                 <label class="text-gray-300 block text-sm font-medium mb-3">Choose content output level</label>
                 <div id="outputLevelGroup" class="grid grid-cols-4 gap-2">
                     <button data-value="Short" class="btn-option p-3 rounded-lg text-xs md:text-sm">Short</button>
@@ -190,8 +165,7 @@
                 </div>
             </div>
 
-            <!-- Action Buttons and Loading Indicator -->
-            <div class="flex items-center space-x-2 mb-8">
+            <!-- Action Buttons and Loading Indicator --><div class="flex items-center space-x-2 mb-8">
                 <button id="generateContentBtn" class="btn-primary flex-grow p-4 rounded-xl text-lg flex items-center justify-center transition-all duration-200">
                     <span id="btnText">Generate Content</span>
                     <svg id="loadingSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-black hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -199,22 +173,18 @@
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                 </button>
-                <!-- Action Buttons (Toggles) -->
-                <button id="emojiBtn" data-action="emoji" class="btn-option p-4 rounded-xl text-lg transition-all duration-200" title="Include relevant emoji in the content">😀</button>
+                <!-- Action Buttons (Toggles) --><button id="emojiBtn" data-action="emoji" class="btn-option p-4 rounded-xl text-lg transition-all duration-200" title="Include relevant emoji in the content">😀</button>
                 <button id="hashtagBtn" data-action="hashtag" class="btn-option p-4 rounded-xl text-lg transition-all duration-200" title="Include trending hashtags in the content">#</button>
                 <button id="ctaBtn" data-action="cta" class="btn-option p-4 rounded-xl text-lg transition-all duration-200" title="Include a clear Call To Action in the content">📞</button>
             </div>
         </div>
         
-        <!-- Content Output Area -->
-        <div id="outputSection" class="w-full max-w-2xl mt-4 hidden">
+        <!-- Content Output Area --><div id="outputSection" class="w-full max-w-2xl mt-4 hidden">
             <h3 class="text-xl font-semibold text-white mb-3">Generated Content</h3>
             <div id="contentOutput" class="p-6 bg-gray-800 text-gray-100 rounded-xl whitespace-pre-wrap leading-relaxed shadow-lg min-h-[150px]">
-                <!-- Generated content will appear here -->
-            </div>
+                <!-- Generated content will appear here --></div>
             
-            <!-- New Post-Generation Action Buttons -->
-            <div id="postGenerationActions" class="flex flex-wrap gap-2 mt-4 hidden">
+            <!-- New Post-Generation Action Buttons --><div id="postGenerationActions" class="flex flex-wrap gap-2 mt-4 hidden">
                 <button id="copyBtn" class="btn-secondary p-3 rounded-lg flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v5m-8 6h3"></path></svg>
                     Copy
@@ -237,8 +207,7 @@
             <div id="statusMessage" class="text-emerald-400 mt-4 hidden"></div>
         </div>
         
-        <!-- Headline Output Area (NEW) -->
-        <div id="headlineOutputSection" class="w-full max-w-2xl mt-8 hidden">
+        <!-- Headline Output Area (NEW) --><div id="headlineOutputSection" class="w-full max-w-2xl mt-8 hidden">
             <h3 class="text-xl font-semibold text-white mb-3">Generated Headlines</h3>
             <div class="flex flex-col md:flex-row gap-2 mb-3">
                 <button id="copyHeadlineBtn" class="btn-secondary p-3 rounded-lg flex items-center justify-center flex-grow">
@@ -247,12 +216,10 @@
                 </button>
             </div>
             <div id="headlineOutput" class="p-6 bg-gray-800 text-gray-100 rounded-xl whitespace-pre-wrap leading-relaxed shadow-lg min-h-[100px] text-sm">
-                <!-- Generated headlines will appear here -->
-            </div>
+                <!-- Generated headlines will appear here --></div>
         </div>
 
-        <!-- Tagline Output Area (NEW) -->
-        <div id="taglineOutputSection" class="w-full max-w-2xl mt-8 hidden">
+        <!-- Tagline Output Area (NEW) --><div id="taglineOutputSection" class="w-full max-w-2xl mt-8 hidden">
             <h3 class="text-xl font-semibold text-white mb-3">Generated Taglines</h3>
             <div class="flex flex-col md:flex-row gap-2 mb-3">
                 <button id="copyTaglineBtn" class="btn-secondary p-3 rounded-lg flex items-center justify-center flex-grow">
@@ -261,8 +228,7 @@
                 </button>
             </div>
             <div id="taglineOutput" class="p-6 bg-gray-800 text-gray-100 rounded-xl whitespace-pre-wrap leading-relaxed shadow-lg min-h-[100px] text-sm">
-                <!-- Generated taglines will appear here -->
-            </div>
+                <!-- Generated taglines will appear here --></div>
         </div>
     </div>
 
@@ -275,10 +241,8 @@
         let selectedLanguage = 'English'; // Default to English
         let isGenerating = false;
         
-        // NEW: Current API Key state. Initially empty to let the environment inject the key.
+        // Current API Key state.
         let currentApiKey = ""; 
-        // UPDATED: Password for client-side UI unlock only
-        const MASTER_PASSWORD = "digimetric@99#"; // Updated password
 
         // New action toggles (default to OFF/false)
         let isEmojiEnabled = false;
@@ -408,6 +372,12 @@
         async function generateContent(mode = 'content', customInstruction = '') {
             if (isGenerating) return;
 
+            // CRITICAL FIX: Ensure API Key is loaded from localStorage before making the call
+            const storedApiKey = localStorage.getItem('geminiApiKey');
+            if (storedApiKey) {
+                currentApiKey = storedApiKey;
+            }
+
             // API URL uses the dynamically set API key
             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${currentApiKey}`;
 
@@ -426,7 +396,7 @@
 
             // New references for auxiliary output
             const headlineOutputSection = document.getElementById('headlineOutputSection');
-            const headlineOutputDiv = document.getElementById('headlineOutput');
+            const headlineOutputDiv = document.getElementById('headlineOutput'); 
             const taglineOutputSection = document.getElementById('taglineOutputSection');
             const taglineOutputDiv = document.getElementById('taglineOutput');
 
@@ -444,6 +414,11 @@
                  errorDiv.textContent = 'Please generate the main content first before generating headlines or taglines.';
                  errorDiv.classList.remove('hidden');
                  return;
+            } else if (!currentApiKey) {
+                // Additional check for API Key before generation
+                errorDiv.textContent = 'API Key is required. Please log in first.';
+                errorDiv.classList.remove('hidden');
+                return;
             } else {
                 errorDiv.classList.add('hidden');
             }
@@ -696,94 +671,7 @@
                 errorDiv.classList.remove('hidden');
             }
         }
-
-        // --- Log In Logic ---
-        function handleLogin(event) {
-            event.preventDefault();
-
-            const passwordInput = document.getElementById('passwordInput');
-            const apiKeyInput = document.getElementById('apiKeyInput').value.trim();
-            const loginError = document.getElementById('loginError');
-            
-            loginError.classList.add('hidden');
-            passwordInput.classList.remove('error-border'); // Clear previous error state
-
-            if (passwordInput.value.trim() !== MASTER_PASSWORD) {
-                loginError.textContent = 'Invalid Password.';
-                loginError.classList.remove('hidden');
-                passwordInput.classList.add('error-border'); // Add error border
-                return;
-            }
-            
-            // **PERSISTENCE CHANGE: Set login flag in localStorage**
-            localStorage.setItem('isLoggedIn', 'true');
-
-            // If password is correct, unlock the app
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('mainAppContent').classList.remove('hidden');
-            
-            // If the user provided a key, use it for API calls
-            if (apiKeyInput) {
-                currentApiKey = apiKeyInput;
-                console.log("Using user-provided API Key for generation.");
-            } else {
-                // If no key provided, currentApiKey remains "", relying on platform injection.
-                console.log("Using platform-provided API Key (via empty key) for generation.");
-            }
-        }
         
-        // --- Log out Logic (NEW) ---
-        function handleLogout() {
-            // **PERSISTENCE CHANGE: Remove login flag from localStorage**
-            localStorage.removeItem('isLoggedIn');
-            
-            // Hide main app and show login screen
-            document.getElementById('mainAppContent').classList.add('hidden');
-            document.getElementById('loginScreen').classList.remove('hidden');
-            
-            // Clear API key and Password fields for next login (optional, but good practice)
-            document.getElementById('apiKeyInput').value = '';
-            document.getElementById('passwordInput').value = '';
-            
-            // Reset state and clear outputs
-            document.getElementById('contentOutput').textContent = '';
-            document.getElementById('outputSection').classList.add('hidden');
-            document.getElementById('headlineOutputSection').classList.add('hidden');
-            document.getElementById('taglineOutputSection').classList.add('hidden');
-            document.getElementById('loginError').classList.add('hidden');
-            
-            console.log("Logged out successfully.");
-        }
-        
-        // --- Toggle Password Visibility (FIXED) ---
-        function togglePasswordVisibility() {
-            const passwordField = document.getElementById('passwordInput');
-            const toggleButton = document.getElementById('togglePassword');
-            const eyeIcon = document.getElementById('eyeIcon');
-
-            // If it's currently hidden (password type), show it (change to text type)
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                // Highlight when visible
-                toggleButton.classList.add('text-emerald-400');
-                
-                // Set to 'eye open' path (The default state paths)
-                eyeIcon.innerHTML = `<path id="eyePath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path id="eyeMainPath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
-                
-            } else {
-                // If it's currently visible (text type), hide it (change to password type)
-                passwordField.type = 'password';
-                // Remove highlight when hidden
-                toggleButton.classList.remove('text-emerald-400');
-                toggleButton.classList.add('text-gray-400');
-                toggleButton.classList.add('hover:text-white');
-
-                // Set to 'eye slash' path
-                eyeIcon.innerHTML = `<path id="eyePath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 5.5l.947 1.258a10.02 10.02 0 00-6.071 6.242M13.5 18.5l.947-1.258a10.02 10.02 0 006.071-6.242M15 12a3 3 0 11-6 0 3 3 0 016 0zM12 5C5.373 5 0 12 0 12s5.373 7 12 7 12-7 12-7S18.627 5 12 5zM4 4l16 16"></path>`;
-            }
-        }
-
-
         // --- Action Handlers for Post-Generation Buttons ---
         function setupPostGenerationActions() {
             // Copy main content button
@@ -822,21 +710,86 @@
                  copyContentToClipboard('taglineOutput', 'Taglines copied to clipboard!');
             });
         }
+
+
+        // --- Log In Logic ---
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            const loginError = document.getElementById('loginError');
+            
+            loginError.classList.add('hidden');
+            apiKeyInput.classList.remove('error-border'); // Clear previous error state
+
+            const enteredApiKey = apiKeyInput.value.trim();
+
+            if (!enteredApiKey) {
+                loginError.textContent = 'Please enter your Gemini API Key.';
+                loginError.classList.remove('hidden');
+                apiKeyInput.classList.add('error-border'); // Add error border
+                return;
+            }
+            
+            // Store API Key in local storage
+            localStorage.setItem('geminiApiKey', enteredApiKey);
+            localStorage.setItem('isLoggedIn', 'true'); // Still keep a login flag for UI state
+
+            // Set the current API key for the application
+            currentApiKey = enteredApiKey;
+
+            // If API Key is entered, unlock the app
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainAppContent').classList.remove('hidden');
+            
+            console.log("Logged in with API Key for generation.");
+        }
+        
+        // --- Log out Logic (NEW) ---
+        function handleLogout() {
+            // Remove login flag and API key from localStorage
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('geminiApiKey');
+            
+            // Hide main app and show login screen
+            document.getElementById('mainAppContent').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            
+            // Clear API key input field
+            document.getElementById('apiKeyInput').value = '';
+            currentApiKey = ""; // Clear current API key from memory
+            
+            // Reset state and clear outputs
+            document.getElementById('contentOutput').textContent = '';
+            document.getElementById('outputSection').classList.add('hidden');
+            document.getElementById('headlineOutputSection').classList.add('hidden');
+            document.getElementById('taglineOutputSection').classList.add('hidden');
+            document.getElementById('loginError').classList.add('hidden');
+            
+            console.log("Logged out successfully.");
+        }
         
         // --- Handle Initial App State Check ---
         function checkInitialLoginState() {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            
-            if (isLoggedIn) {
-                // Skip login screen and go straight to the app
+            const storedApiKey = localStorage.getItem('geminiApiKey');
+            const apiKeyInput = document.getElementById('apiKeyInput');
+
+            if (storedApiKey) {
+                apiKeyInput.value = storedApiKey; // Pre-fill API key from local storage
+                currentApiKey = storedApiKey; // Set API key for immediate use
+            }
+
+            if (isLoggedIn && storedApiKey) {
+                // Skip login screen and go straight to the app if logged in and API key exists
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('mainAppContent').classList.remove('hidden');
-                console.log("Logged in state found. Bypassing login screen.");
+                console.log("Logged in state and API Key found. Bypassing login screen.");
             } else {
                  // Show login screen
                 document.getElementById('loginScreen').classList.remove('hidden');
                 document.getElementById('mainAppContent').classList.add('hidden');
-                console.log("No logged in state found. Showing login screen.");
+                console.log("No valid logged in state found or API Key missing. Showing login screen.");
             }
         }
 
@@ -846,10 +799,7 @@
             // Setup Log In listeners
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
             
-            // Attach listener to togglePassword for visibility change
-            document.getElementById('togglePassword').addEventListener('click', togglePasswordVisibility);
-            
-            // Setup Log out listener (NEW)
+            // Setup Log out listener
             document.getElementById('logoutBtn').addEventListener('click', handleLogout);
 
             // Setup all main selection groups
@@ -859,7 +809,7 @@
             setupSelectionGroup('outputLevelGroup');
             
             // Setup action toggles and post-generation buttons
-            setupActionToggles();
+            setupActionToggles(); 
             setupPostGenerationActions();
 
             // Attach the main event listener
