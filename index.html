@@ -44,9 +44,6 @@
             font-weight: 500;
             transition: background-color 0.15s;
         }
-        .btn-secondary:hover {
-            background-color: #3f3f46; /* Gray-700 on hover */
-        }
         /* Custom styles for Login UI */
         .login-card {
             background-color: #171717; /* Neutral-900 */
@@ -70,14 +67,14 @@
         <div class="w-full max-w-sm login-card rounded-2xl p-8 shadow-2xl">
             <div class="text-center mb-6">
                 <h1 class="text-white text-xl font-bold mb-1">Digimetric</h1>
-                <h2 class="text-gray-300 text-2xl font-semibold mb-6">AI-Powered Content Writer</h2>
-                <p class="text-emerald-400 text-lg font-medium">Log in with Gemini API Key</p>
-                <p class="text-gray-400 text-sm mt-3 mb-4">Please enter your **API Key** to use the application.</p>
+                <h2 id="login-h2-title" class="text-gray-300 text-2xl font-semibold mb-6">AI-Powered Content Writer</h2>
+                <p id="login-p-title" class="text-emerald-400 text-lg font-medium">Log in with Gemini API Key</p>
+                <p id="login-instruction" class="text-gray-400 text-sm mt-3 mb-4">Please enter your **API Key** to use the application.</p>
             </div>
 
             <form id="loginForm" class="space-y-6">
                 <!-- API Key Input --><div>
-                    <label for="apiKeyInput" class="text-gray-300 block text-sm font-medium mb-2">Gemini API Key</label>
+                    <label id="label-apikey" for="apiKeyInput" class="text-gray-300 block text-sm font-medium mb-2">Gemini API Key</label>
                     <input type="password" id="apiKeyInput" placeholder="Enter API Key" class="login-input w-full p-4 rounded-xl text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
                 </div>
                 
@@ -90,12 +87,17 @@
     </div>
 
     <!-- Main Application Content (Hidden by default) --><div id="mainAppContent" class="hidden w-full max-w-2xl flex flex-col items-center relative">
-        <!-- Log out Button (NEW) --><button id="logoutBtn" class="absolute top-4 right-4 z-10 btn-secondary p-2 rounded-lg text-sm flex items-center transition-all duration-200 hover:bg-gray-700">
-             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-             Log out
-        </button>
+        
+        <!-- TOP BAR: Log out (Right) --><div class="w-full max-w-2xl flex justify-end items-center absolute top-4 z-10">
+            
+            <!-- Log out Button (Right) --><button id="logoutBtn" class="btn-secondary p-2 rounded-lg text-sm flex items-center transition-all duration-200 hover:bg-gray-700">
+                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                 <span id="btn-logout">Log out</span>
+            </button>
+        </div>
 
-        <!-- Header Section --><div class="text-center mb-10 w-full max-w-2xl">
+
+        <!-- Header Section (Title centered below top bar) --><div class="text-center mb-10 w-full max-w-2xl pt-16">
             <h1 class="text-white text-3xl font-extrabold mb-1">Digimetric</h1>
             <h2 class="text-emerald-400 text-xl font-semibold tracking-wide">AI-Powered Content Writer</h2>
         </div>
@@ -103,22 +105,22 @@
         <!-- Main Content Generator Form --><div id="content-generator-form" class="w-full max-w-2xl bg-black rounded-xl p-0">
             
             <!-- Input Group: Business Name --><div class="mb-6">
-                <label for="businessName" class="text-gray-300 block text-sm font-medium mb-2">Name of Your Business</label>
+                <label id="label-businessName" for="businessName" class="text-gray-300 block text-sm font-medium mb-2">Name of Your Business</label>
                 <input type="text" id="businessName" placeholder="e.g., Ocean Blue Coffee Shop" class="input-field w-full p-3 rounded-lg text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
             </div>
 
             <!-- Input Group: Topic --><div class="mb-6">
-                <label for="topic" class="text-gray-300 block text-sm font-medium mb-2">What topic do you need content ideas for?</label>
+                <label id="label-topic" for="topic" class="text-gray-300 block text-sm font-medium mb-2">What topic do you need content ideas for?</label>
                 <input type="text" id="topic" placeholder="e.g., Introducing the new 'Summer Blast' coffee blend" class="input-field w-full p-3 rounded-lg text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
             </div>
 
             <!-- Input Group: Target Audience --><div class="mb-6">
-                <label for="audience" class="text-gray-300 block text-sm font-medium mb-2">What is your target audience?</label>
+                <label id="label-audience" for="audience" class="text-gray-300 block text-sm font-medium mb-2">What is your target audience?</label>
                 <input type="text" id="audience" placeholder="e.g., Office workers and students aged 20-35" class="input-field w-full p-3 rounded-lg text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
             </div>
 
             <!-- Selection Group: Content Type (Default: Awareness) --><div class="mb-8">
-                <label class="text-gray-300 block text-sm font-medium mb-3">Choose your type of content</label>
+                <label id="label-contentType" class="text-gray-300 block text-sm font-medium mb-3">Choose your type of content</label>
                 <div id="contentTypeGroup" class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <button data-value="Sales" class="btn-option p-3 rounded-lg text-xs md:text-sm">Sales</button>
                     <button data-value="Awareness" class="btn-option p-3 rounded-lg text-xs md:text-sm active">Awareness</button>
@@ -132,7 +134,7 @@
             </div>
 
             <!-- Selection Group: Tone of Voice (Default: Friendly) --><div class="mb-8">
-                <label class="text-gray-300 block text-sm font-medium mb-3">Choose your tone of voice</label>
+                <label id="label-toneOfVoice" class="text-gray-300 block text-sm font-medium mb-3">Choose your tone of voice</label>
                 <div id="toneOfVoiceGroup" class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <button data-value="Sales" class="btn-option p-3 rounded-lg text-xs md:text-sm">Sales</button>
                     <button data-value="Friendly" class="btn-option p-3 rounded-lg text-xs md:text-sm active">Friendly</button>
@@ -146,7 +148,7 @@
             </div>
             
             <!-- Selection Group: Language (Default: English) --><div class="mb-8">
-                <label class="text-gray-300 block text-sm font-medium mb-3">Choose your language</label>
+                <label id="label-contentLanguage" class="text-gray-300 block text-sm font-medium mb-3">Choose your language</label>
                 <div id="languageGroup" class="grid grid-cols-4 gap-2">
                     <button data-value="Burmese" class="btn-option p-3 rounded-lg text-xs md:text-sm">Burmese</button>
                     <button data-value="English" class="btn-option p-3 rounded-lg text-xs md:text-sm active">English</button>
@@ -156,7 +158,7 @@
             </div>
 
             <!-- Selection Group: Output Level (Default: Medium) --><div class="mb-8">
-                <label class="text-gray-300 block text-sm font-medium mb-3">Choose content output level</label>
+                <label id="label-outputLevel" class="text-gray-300 block text-sm font-medium mb-3">Choose content output level</label>
                 <div id="outputLevelGroup" class="grid grid-cols-4 gap-2">
                     <button data-value="Short" class="btn-option p-3 rounded-lg text-xs md:text-sm">Short</button>
                     <button data-value="Medium" class="btn-option p-3 rounded-lg text-xs md:text-sm active">Medium</button>
@@ -180,26 +182,26 @@
         </div>
         
         <!-- Content Output Area --><div id="outputSection" class="w-full max-w-2xl mt-4 hidden">
-            <h3 class="text-xl font-semibold text-white mb-3">Generated Content</h3>
+            <h3 id="h3-generatedContent" class="text-xl font-semibold text-white mb-3">Generated Content</h3>
             <div id="contentOutput" class="p-6 bg-gray-800 text-gray-100 rounded-xl whitespace-pre-wrap leading-relaxed shadow-lg min-h-[150px]">
                 <!-- Generated content will appear here --></div>
             
             <!-- New Post-Generation Action Buttons --><div id="postGenerationActions" class="flex flex-wrap gap-2 mt-4 hidden">
                 <button id="copyBtn" class="btn-secondary p-3 rounded-lg flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v5m-8 6h3"></path></svg>
-                    Copy
+                    <span id="btn-copy">Copy</span>
                 </button>
                 <button id="regenerateBtn" class="btn-secondary p-3 rounded-lg flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                    Regenerate Content
+                    <span id="btn-regenerate">Regenerate Content</span>
                 </button>
                 <button id="headlineBtn" class="btn-secondary p-3 rounded-lg flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                    Generate Headline
+                    <span id="btn-headline">Generate Headline</span>
                 </button>
                 <button id="taglineBtn" class="btn-secondary p-3 rounded-lg flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5m-5 4v10m-2 2h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                    Generate Tagline
+                    <span id="btn-tagline">Generate Tagline</span>
                 </button>
             </div>
 
@@ -208,11 +210,11 @@
         </div>
         
         <!-- Headline Output Area (NEW) --><div id="headlineOutputSection" class="w-full max-w-2xl mt-8 hidden">
-            <h3 class="text-xl font-semibold text-white mb-3">Generated Headlines</h3>
+            <h3 id="h3-headlines" class="text-xl font-semibold text-white mb-3">Generated Headlines</h3>
             <div class="flex flex-col md:flex-row gap-2 mb-3">
                 <button id="copyHeadlineBtn" class="btn-secondary p-3 rounded-lg flex items-center justify-center flex-grow">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v5m-8 6h3"></path></svg>
-                    Copy All
+                    <span id="btn-copyAll-h">Copy All</span>
                 </button>
             </div>
             <div id="headlineOutput" class="p-6 bg-gray-800 text-gray-100 rounded-xl whitespace-pre-wrap leading-relaxed shadow-lg min-h-[100px] text-sm">
@@ -220,11 +222,11 @@
         </div>
 
         <!-- Tagline Output Area (NEW) --><div id="taglineOutputSection" class="w-full max-w-2xl mt-8 hidden">
-            <h3 class="text-xl font-semibold text-white mb-3">Generated Taglines</h3>
+            <h3 id="h3-taglines" class="text-xl font-semibold text-white mb-3">Generated Taglines</h3>
             <div class="flex flex-col md:flex-row gap-2 mb-3">
                 <button id="copyTaglineBtn" class="btn-secondary p-3 rounded-lg flex items-center justify-center flex-grow">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v5m-8 6h3"></path></svg>
-                    Copy All
+                    <span id="btn-copyAll-t">Copy All</span>
                 </button>
             </div>
             <div id="taglineOutput" class="p-6 bg-gray-800 text-gray-100 rounded-xl whitespace-pre-wrap leading-relaxed shadow-lg min-h-[100px] text-sm">
@@ -238,7 +240,7 @@
         let selectedContentType = 'Awareness'; // Default to Awareness
         let selectedToneOfVoice = 'Friendly';   // Default to Friendly
         let selectedOutputLevel = 'Medium';     // Default to Medium
-        let selectedLanguage = 'English'; // Default to English
+        let selectedLanguage = 'English'; // Default to English (Now fixed to English)
         let isGenerating = false;
         
         // Current API Key state.
@@ -252,15 +254,19 @@
         // Last successful query components for regeneration
         let lastQueryComponents = {};
         
-        // --- Content Density Mapping (NEW) ---
+        // Language is now fixed to English, so we can simplify the logic
+        let currentLanguage = 'en'; 
+
+        
+        // --- CONTENT DENSITY MAPPING ---
         const contentDensityMap = {
             'Short': { emojiMin: 5, emojiMax: 10, hashtagMin: 10, hashtagMax: 15 },
             'Medium': { emojiMin: 10, emojiMax: 15, hashtagMin: 15, hashtagMax: 20 },
             'Long': { emojiMin: 15, emojiMax: 25, hashtagMin: 20, hashtagMax: 25 },
-            'Extended': { emojiMin: 25, emojiMax: 35, hashtagMin: 25, hashtagMax: 30 } // Using 35 and 30 for "30+" and "25+" respectively
+            'Extended': { emojiMin: 25, emojiMax: 35, hashtagMin: 25, hashtagMax: 30 }
         };
         
-        // --- Tone of Voice Instructions Mapping ---
+        // --- TONE OF VOICE INSTRUCTIONS MAPPING ---
         const toneInstructionMap = {
             "Sales": "Write in a persuasive tone that highlights benefits, builds urgency, and encourages immediate action.",
             "Friendly": "Write in a friendly, conversational tone with simple language that feels natural and relatable.",
@@ -272,7 +278,7 @@
             "Luxury": "Write in a luxury tone with refined vocabulary, emotional sophistication, and an emphasis on exclusivity and quality."
         };
         
-        // --- Content Type Instructions Mapping ---
+        // --- CONTENT TYPE INSTRUCTIONS MAPPING ---
         const contentTypeInstructionMap = {
             "Sales": "Write a persuasive sales post that highlights benefits, adds urgency, and ends with a clear call to action.",
             "Awareness": "Write a brand awareness post that introduces the brand values and builds recognition without sounding too salesy.",
@@ -284,7 +290,7 @@
             "Storytelling": "Write a compelling story that uses a narrative structure (character, conflict, resolution, emotion) based on the topic and target audience. The output should draw the reader in with narrative elements.",
         };
 
-        // --- Output Level to Word Count Mapping ---
+        // --- OUTPUT LEVEL TO WORD COUNT MAPPING ---
         const lengthMapping = {
             'Short': 'around 100 words',
             'Medium': 'around 180 words',
@@ -292,6 +298,39 @@
             'Extended': 'around 500 words'
         };
 
+        // --- UI TEXTS (Now simplified to English only) ---
+        const uiText = {
+            'btn-logout': 'Log out',
+            'label-businessName': 'Name of Your Business',
+            'label-topic': 'What topic do you need content ideas for?',
+            'label-audience': 'What is your target audience?',
+            'label-contentType': 'Choose your type of content',
+            'label-toneOfVoice': 'Choose your tone of voice',
+            'label-contentLanguage': 'Choose your language',
+            'label-outputLevel': 'Choose content output level',
+            'btnText': 'Generate Content',
+            'h3-generatedContent': 'Generated Content',
+            'btn-copy': 'Copy',
+            'btn-regenerate': 'Regenerate Content',
+            'btn-headline': 'Generate Headline',
+            'btn-tagline': 'Generate Tagline',
+            'h3-headlines': 'Generated Headlines',
+            'btn-copyAll-h': 'Copy All',
+            'h3-taglines': 'Generated Taglines',
+            'btn-copyAll-t': 'Copy All',
+            'placeholder-business': 'e.g., Ocean Blue Coffee Shop',
+            'placeholder-topic': "e.g., Introducing the new 'Summer Blast' coffee blend",
+            'placeholder-audience': 'e.g., Office workers and students aged 20-35',
+            'error-failed-copy': 'Failed to copy content.',
+            'error-generate-first': 'Please generate the main content first before generating headlines or taglines.',
+            'error-no-content': 'Could not generate content. API returned no response. (Error: No content)',
+            'error-validation-missing': 'Please fill in all required fields and select all options.',
+            'error-api-key-required': 'Please enter your Gemini API Key.',
+            'error-api-key-generation': 'API Key is missing or invalid. Please Log out and Log back in with your API Key to generate content.',
+            'error-network': 'Could not generate content due to a network or API connection error. Please Log out and Log back in with your API Key.',
+            'error-503': 'The AI service is currently experiencing heavy load (Status 503). Please wait a moment and try again.',
+        };
+        
         // --- Utility to show temporary button activity ---
         function flashButton(buttonId) {
             const button = document.getElementById(buttonId);
@@ -378,8 +417,8 @@
                 currentApiKey = storedApiKey;
             }
 
-            // API URL uses the dynamically set API key
-            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${currentApiKey}`;
+            // FIX 503: Change to the recommended model for better stability
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${currentApiKey}`;
 
             const businessName = document.getElementById('businessName').value.trim();
             const topic = document.getElementById('topic').value.trim();
@@ -399,6 +438,9 @@
             const headlineOutputDiv = document.getElementById('headlineOutput'); 
             const taglineOutputSection = document.getElementById('taglineOutputSection');
             const taglineOutputDiv = document.getElementById('taglineOutput');
+            
+            // Get UI text for error messages (now fixed to English)
+            const t = uiText; 
 
             // 1. Validation (Only for the main 'content' generation mode)
             if (mode === 'content' && (!businessName || !topic || !audience || !selectedContentType || !selectedToneOfVoice || !selectedLanguage || !selectedOutputLevel)) {
@@ -406,17 +448,17 @@
                 postActions.classList.add('hidden');
                 headlineOutputSection.classList.add('hidden');
                 taglineOutputSection.classList.add('hidden');
-                errorDiv.textContent = 'Please fill in all required fields (Business Name, Topic, Audience) and select all options (Content Type, Tone, Language, Length).';
+                errorDiv.textContent = t['error-validation-missing'];
                 errorDiv.classList.remove('hidden');
                 return;
             } else if (mode !== 'content' && !lastQueryComponents.businessName) {
                  // Validation for regeneration/headline/tagline if main content hasn't been generated yet
-                 errorDiv.textContent = 'Please generate the main content first before generating headlines or taglines.';
+                 errorDiv.textContent = t['error-generate-first'];
                  errorDiv.classList.remove('hidden');
                  return;
             } else if (!currentApiKey) {
-                // Additional check for API Key before generation
-                errorDiv.textContent = 'API Key is required. Please log in first.';
+                // FIX: If key is missing, show localized error and stop
+                errorDiv.textContent = t['error-api-key-generation'];
                 errorDiv.classList.remove('hidden');
                 return;
             } else {
@@ -424,14 +466,14 @@
             }
 
             // 2. Determine Inputs based on mode
-            let currentBusinessName, currentTopic, currentAudience, currentLanguage, currentLength, currentOutputLevel;
+            let currentBusinessName, currentTopic, currentAudience, contentLanguage, currentLength, currentOutputLevel;
 
             if (mode === 'content') {
                 // Use current form values
                 currentBusinessName = businessName;
                 currentTopic = topic;
                 currentAudience = audience;
-                currentLanguage = selectedLanguage;
+                contentLanguage = selectedLanguage;
                 currentLength = lengthMapping[selectedOutputLevel];
                 currentOutputLevel = selectedOutputLevel; // Store the level string
             } else {
@@ -439,7 +481,7 @@
                 currentBusinessName = lastQueryComponents.businessName;
                 currentTopic = lastQueryComponents.topic;
                 currentAudience = lastQueryComponents.audience;
-                currentLanguage = lastQueryComponents.language;
+                contentLanguage = lastQueryComponents.language;
                 currentLength = lastQueryComponents.length;
                 currentOutputLevel = lastQueryComponents.level; // Retrieve the stored level string
             }
@@ -457,19 +499,19 @@
             taglineOutputSection.classList.add('hidden');
             statusDiv.classList.add('hidden'); 
             
-            // UI Update based on mode: (UPDATED: Removed "15")
+            // UI Update based on mode:
             if (mode === 'content' || mode === 'regenerate') {
-                btnText.textContent = 'Generating Content...';
-                outputDiv.textContent = 'AI is generating content...';
+                btnText.textContent = t['btnText'] + '...'; 
+                outputDiv.textContent = t['h3-generatedContent'] + '...'; 
                 postActions.classList.add('hidden'); 
             } else if (mode === 'headline') {
-                btnText.textContent = 'Generating Headlines...';
+                btnText.textContent = t['btn-headline'] + '...'; 
                 headlineOutputSection.classList.remove('hidden');
-                headlineOutputDiv.textContent = 'AI is generating headlines...';
+                headlineOutputDiv.textContent = t['h3-headlines'] + '...'; 
             } else if (mode === 'tagline') {
-                btnText.textContent = 'Generating Taglines...';
+                btnText.textContent = t['btn-tagline'] + '...'; 
                 taglineOutputSection.classList.remove('hidden');
-                taglineOutputDiv.textContent = 'AI is generating taglines...';
+                taglineOutputDiv.textContent = t['h3-taglines'] + '...'; 
             }
 
 
@@ -500,15 +542,14 @@
             }
 
             // System Instruction is now dynamic based on selectedLanguage
-            // REMOVED ** around the system instruction text to stop generating ** or *** in output
-            const systemPrompt = `You are an expert Content Manager and Copywriter. Your goal is to write compelling, high-quality content that perfectly matches the user's requirements and is written entirely in ${currentLanguage}. The output must be exactly one text block.`;
+            const systemPrompt = `You are an expert Content Manager and Copywriter. Your goal is to write compelling, high-quality content that perfectly matches the user's requirements and is written entirely in ${contentLanguage}. The output must be exactly one text block.`;
 
             // User Query combining all inputs
             let userQuery = `
                 My business name is ${currentBusinessName}.
                 The topic is: ${currentTopic}.
                 The target audience is ${currentAudience}.
-                Output Language: ${currentLanguage}.
+                Output Language: ${contentLanguage}.
             `;
             
             if (mode === 'content' || mode === 'regenerate') {
@@ -529,7 +570,7 @@
                     businessName: currentBusinessName,
                     topic: currentTopic,
                     audience: currentAudience,
-                    language: currentLanguage,
+                    language: contentLanguage,
                     length: currentLength,
                     level: currentOutputLevel, // Store the level string
                     tone: selectedToneOfVoice,
@@ -583,6 +624,10 @@
                         continue;
                     }
                     if (!response.ok) {
+                        // Check specifically for 503
+                        if (response.status === 503) {
+                             throw new Error(`503: ${t['error-503']}`);
+                        }
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
@@ -593,12 +638,12 @@
                         // For Headline/Tagline, show result in dedicated area
                         if (mode === 'headline') {
                             headlineOutputDiv.textContent = generatedText.trim();
-                            statusDiv.textContent = 'Headlines Generated successfully.';
+                            statusDiv.textContent = t['h3-headlines'] + ' Generated successfully.';
                             statusDiv.classList.remove('hidden');
                             lastQueryComponents.lastGeneratedHeadline = generatedText.trim();
                         } else if (mode === 'tagline') {
                             taglineOutputDiv.textContent = generatedText.trim();
-                            statusDiv.textContent = 'Taglines Generated successfully.';
+                            statusDiv.textContent = t['h3-taglines'] + ' Generated successfully.';
                             statusDiv.classList.remove('hidden');
                             lastQueryComponents.lastGeneratedTagline = generatedText.trim();
                         } else {
@@ -609,7 +654,7 @@
                             lastQueryComponents.lastGeneratedContent = outputDiv.textContent;
                         }
                     } else {
-                        outputDiv.textContent = 'Could not generate content. API returned no response. (Error: No content)';
+                        outputDiv.textContent = t['error-no-content'];
                         statusDiv.classList.add('hidden');
                     }
                     break; // Exit loop on success
@@ -617,18 +662,26 @@
                 } catch (error) {
                     console.error("API Call Error:", error);
                     // Update appropriate output area with error message
+                    const errorMsg = error.message;
+
                     if (mode === 'content' || mode === 'regenerate') {
-                       outputDiv.textContent = `An error occurred while generating content: ${error.message}`;
+                       outputDiv.textContent = errorMsg;
                     } else if (mode === 'headline') {
-                       headlineOutputDiv.textContent = `An error occurred while generating headlines: ${error.message}`;
+                       headlineOutputDiv.textContent = errorMsg;
                        statusDiv.classList.add('hidden'); // Clear status message
                     } else if (mode === 'tagline') {
-                       taglineOutputDiv.textContent = `An error occurred while generating taglines: ${error.message}`;
+                       taglineOutputDiv.textContent = errorMsg;
                        statusDiv.classList.add('hidden'); // Clear status message
                     }
                     
                     if (i === MAX_RETRIES - 1) {
-                        outputDiv.textContent = 'Could not generate content due to a network or API connection error.';
+                        // If it's a 503 error after retries, display the custom 503 message
+                        if (error.message.startsWith('503')) {
+                           outputDiv.textContent = t['error-503'];
+                        } else {
+                           // Generic network error, prompt user to relogin
+                           outputDiv.textContent = t['error-network'];
+                        }
                         statusDiv.classList.add('hidden');
                     }
                 }
@@ -636,7 +689,7 @@
 
             // 6. UI State: Stop Loading
             isGenerating = false;
-            btnText.textContent = 'Generate Content';
+            btnText.textContent = t['btnText'];
             loadingSpinner.classList.add('hidden');
             generateBtn.disabled = false;
             
@@ -649,6 +702,7 @@
         // --- Reusable Copy Function ---
         function copyContentToClipboard(elementId, successMessage) {
             const content = document.getElementById(elementId).textContent;
+            const t = uiText;
             try {
                 // Use document.execCommand('copy') for better compatibility in iframe environments
                 const textarea = document.createElement('textarea');
@@ -660,14 +714,14 @@
 
                 // Show temporary success message
                 const statusDiv = document.getElementById('statusMessage');
-                statusDiv.textContent = successMessage;
+                statusDiv.textContent = t[successMessage] || successMessage;
                 statusDiv.classList.remove('hidden');
                 setTimeout(() => statusDiv.classList.add('hidden'), 3000);
 
             } catch (err) {
                 console.error('Could not copy text: ', err);
                 const errorDiv = document.getElementById('errorMessage');
-                errorDiv.textContent = 'Failed to copy content.';
+                errorDiv.textContent = t['error-failed-copy'];
                 errorDiv.classList.remove('hidden');
             }
         }
@@ -718,6 +772,7 @@
 
             const apiKeyInput = document.getElementById('apiKeyInput');
             const loginError = document.getElementById('loginError');
+            const t = uiText;
             
             loginError.classList.add('hidden');
             apiKeyInput.classList.remove('error-border'); // Clear previous error state
@@ -725,7 +780,7 @@
             const enteredApiKey = apiKeyInput.value.trim();
 
             if (!enteredApiKey) {
-                loginError.textContent = 'Please enter your Gemini API Key.';
+                loginError.textContent = t['error-api-key-required'];
                 loginError.classList.remove('hidden');
                 apiKeyInput.classList.add('error-border'); // Add error border
                 return;
@@ -779,6 +834,8 @@
                 apiKeyInput.value = storedApiKey; // Pre-fill API key from local storage
                 currentApiKey = storedApiKey; // Set API key for immediate use
             }
+            
+            // Language logic removed. Language is now fixed to 'English'.
 
             if (isLoggedIn && storedApiKey) {
                 // Skip login screen and go straight to the app if logged in and API key exists
@@ -801,6 +858,8 @@
             
             // Setup Log out listener
             document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+
+            // Removed Language Toggle Listener
 
             // Setup all main selection groups
             setupSelectionGroup('contentTypeGroup');
