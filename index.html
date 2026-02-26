@@ -69,13 +69,13 @@
                 <h1 class="text-white text-xl font-bold mb-1">Digimetric</h1>
                 <h2 id="login-h2-title" class="text-gray-300 text-2xl font-semibold mb-6">AI-Powered Content Writer</h2>
                 <p id="login-p-title" class="text-emerald-400 text-lg font-medium">Log in with Gemini API Key</p>
-                <p id="login-instruction" class="text-gray-400 text-sm mt-3 mb-4">Please enter your **API Key** to use the application.</p>
+                <p id="login-instruction" class="text-gray-400 text-sm mt-3 mb-4">Please enter your **API Key** or leave it blank to use the default environment key.</p>
             </div>
 
             <form id="loginForm" class="space-y-6">
                 <!-- API Key Input --><div>
-                    <label id="label-apikey" for="apiKeyInput" class="text-gray-300 block text-sm font-medium mb-2">Gemini API Key</label>
-                    <input type="password" id="apiKeyInput" placeholder="Enter API Key" class="login-input w-full p-4 rounded-xl text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
+                    <label id="label-apikey" for="apiKeyInput" class="text-gray-300 block text-sm font-medium mb-2">Gemini API Key (Optional)</label>
+                    <input type="password" id="apiKeyInput" placeholder="Enter API Key or leave empty" class="login-input w-full p-4 rounded-xl text-sm placeholder-gray-500 focus:ring-emerald-500 focus:ring-2">
                 </div>
                 
                 <!-- Login Button --><button type="submit" id="loginBtn" class="btn-primary w-full p-4 rounded-xl text-lg mt-8 transition-all duration-200">
@@ -329,6 +329,7 @@
             'error-api-key-generation': 'API Key is missing or invalid. Please Log out and Log back in with your API Key to generate content.',
             'error-network': 'Could not generate content due to a network or API connection error. Please Log out and Log back in with your API Key.',
             'error-503': 'The AI service is currently experiencing heavy load (Status 503). Please wait a moment and try again.',
+            'error-invalid-key': 'Your API Key is invalid. Please Log out and either enter a valid key or leave the field blank to use the default key.',
         };
         
         // --- Utility to show temporary button activity ---
@@ -412,13 +413,13 @@
             if (isGenerating) return;
 
             // CRITICAL FIX: Ensure API Key is loaded from localStorage before making the call
-            const storedApiKey = localStorage.getItem('geminiApiKey');
-            if (storedApiKey) {
-                currentApiKey = storedApiKey;
-            }
+            const storedApiKey = localStorage.getItem('geminiApiKey') || "";
+            currentApiKey = storedApiKey;
 
-            // FIX 503: Change to the recommended model for better stability
-            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${currentApiKey}`;
+            // FIX: Use the standard model if a custom API key is supplied,
+            // otherwise use the preview model if the environment provides it.
+            const modelName = currentApiKey ? 'gemini-2.5-flash' : 'gemini-2.5-flash-preview-09-2025';
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${currentApiKey}`;
 
             const businessName = document.getElementById('businessName').value.trim();
             const topic = document.getElementById('topic').value.trim();
@@ -456,11 +457,6 @@
                  errorDiv.textContent = t['error-generate-first'];
                  errorDiv.classList.remove('hidden');
                  return;
-            } else if (!currentApiKey) {
-                // FIX: If key is missing, show localized error and stop
-                errorDiv.textContent = t['error-api-key-generation'];
-                errorDiv.classList.remove('hidden');
-                return;
             } else {
                 errorDiv.classList.add('hidden');
             }
@@ -609,6 +605,8 @@
             let response;
             const MAX_RETRIES = 3;
             let delay = 1000;
+            let finalError = null;
+            let success = false;
 
             for (let i = 0; i < MAX_RETRIES; i++) {
                 try {
@@ -624,11 +622,28 @@
                         continue;
                     }
                     if (!response.ok) {
-                        // Check specifically for 503
-                        if (response.status === 503) {
-                             throw new Error(`503: ${t['error-503']}`);
+                        let errorDetail = `HTTP error! status: ${response.status}`;
+                        try {
+                            const errorData = await response.json();
+                            if (errorData.error && errorData.error.message) {
+                                errorDetail = errorData.error.message;
+                            }
+                        } catch(e) {}
+                        
+                        // Retry for Rate Limits (429) or Server Errors (5xx)
+                        if ((response.status === 429 || response.status >= 500) && i < MAX_RETRIES - 1) {
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            delay *= 2; // Exponential backoff
+                            continue;
                         }
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        
+                        // Check specifically for Invalid API Key error
+                        if ((response.status === 400 || response.status === 403) && errorDetail.toLowerCase().includes("api key")) {
+                            throw new Error(t['error-invalid-key']);
+                        }
+
+                        // For other client errors (400, 401, 403, 404), do not retry
+                        throw new Error(errorDetail);
                     }
 
                     const result = await response.json();
@@ -653,38 +668,35 @@
                             outputDiv.textContent = cleanedText;
                             lastQueryComponents.lastGeneratedContent = outputDiv.textContent;
                         }
+                        success = true;
                     } else {
-                        outputDiv.textContent = t['error-no-content'];
-                        statusDiv.classList.add('hidden');
+                        throw new Error(t['error-no-content']);
                     }
                     break; // Exit loop on success
 
                 } catch (error) {
                     console.error("API Call Error:", error);
-                    // Update appropriate output area with error message
-                    const errorMsg = error.message;
-
-                    if (mode === 'content' || mode === 'regenerate') {
-                       outputDiv.textContent = errorMsg;
-                    } else if (mode === 'headline') {
-                       headlineOutputDiv.textContent = errorMsg;
-                       statusDiv.classList.add('hidden'); // Clear status message
-                    } else if (mode === 'tagline') {
-                       taglineOutputDiv.textContent = errorMsg;
-                       statusDiv.classList.add('hidden'); // Clear status message
+                    finalError = error;
+                    // Retry on network/CORS issues (TypeError)
+                    if (error.name === 'TypeError' && i < MAX_RETRIES - 1) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        delay *= 2;
+                        continue;
                     }
-                    
-                    if (i === MAX_RETRIES - 1) {
-                        // If it's a 503 error after retries, display the custom 503 message
-                        if (error.message.startsWith('503')) {
-                           outputDiv.textContent = t['error-503'];
-                        } else {
-                           // Generic network error, prompt user to relogin
-                           outputDiv.textContent = t['error-network'];
-                        }
-                        statusDiv.classList.add('hidden');
-                    }
+                    break; // Break loop on non-retryable error
                 }
+            }
+
+            if (!success) {
+                const errorMsg = finalError ? finalError.message : t['error-network'];
+                if (mode === 'content' || mode === 'regenerate') {
+                    outputDiv.textContent = errorMsg;
+                } else if (mode === 'headline') {
+                    headlineOutputDiv.textContent = errorMsg;
+                } else if (mode === 'tagline') {
+                    taglineOutputDiv.textContent = errorMsg;
+                }
+                statusDiv.classList.add('hidden');
             }
 
             // 6. UI State: Stop Loading
@@ -772,20 +784,12 @@
 
             const apiKeyInput = document.getElementById('apiKeyInput');
             const loginError = document.getElementById('loginError');
-            const t = uiText;
             
             loginError.classList.add('hidden');
             apiKeyInput.classList.remove('error-border'); // Clear previous error state
 
             const enteredApiKey = apiKeyInput.value.trim();
 
-            if (!enteredApiKey) {
-                loginError.textContent = t['error-api-key-required'];
-                loginError.classList.remove('hidden');
-                apiKeyInput.classList.add('error-border'); // Add error border
-                return;
-            }
-            
             // Store API Key in local storage
             localStorage.setItem('geminiApiKey', enteredApiKey);
             localStorage.setItem('isLoggedIn', 'true'); // Still keep a login flag for UI state
@@ -793,11 +797,11 @@
             // Set the current API key for the application
             currentApiKey = enteredApiKey;
 
-            // If API Key is entered, unlock the app
+            // Unlock the app
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('mainAppContent').classList.remove('hidden');
             
-            console.log("Logged in with API Key for generation.");
+            console.log(enteredApiKey ? "Logged in with Custom API Key." : "Logged in with Default Environment Key.");
         }
         
         // --- Log out Logic (NEW) ---
@@ -827,26 +831,25 @@
         // --- Handle Initial App State Check ---
         function checkInitialLoginState() {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            // Allow empty string to pass if they explicitly logged in without a key
             const storedApiKey = localStorage.getItem('geminiApiKey');
             const apiKeyInput = document.getElementById('apiKeyInput');
 
-            if (storedApiKey) {
+            if (storedApiKey !== null) {
                 apiKeyInput.value = storedApiKey; // Pre-fill API key from local storage
                 currentApiKey = storedApiKey; // Set API key for immediate use
             }
-            
-            // Language logic removed. Language is now fixed to 'English'.
 
-            if (isLoggedIn && storedApiKey) {
-                // Skip login screen and go straight to the app if logged in and API key exists
+            if (isLoggedIn && storedApiKey !== null) {
+                // Skip login screen and go straight to the app
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('mainAppContent').classList.remove('hidden');
-                console.log("Logged in state and API Key found. Bypassing login screen.");
+                console.log("Logged in state found. Bypassing login screen.");
             } else {
                  // Show login screen
                 document.getElementById('loginScreen').classList.remove('hidden');
                 document.getElementById('mainAppContent').classList.add('hidden');
-                console.log("No valid logged in state found or API Key missing. Showing login screen.");
+                console.log("No valid logged in state found. Showing login screen.");
             }
         }
 
